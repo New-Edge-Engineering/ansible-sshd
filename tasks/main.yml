@@ -9,6 +9,7 @@
 
 - name: ensure openssh configuration does not PermitRootLogin.
   lineinfile:
+    backrefs=yes
     dest=/etc/ssh/sshd_config
     regexp="^PermitRootLogin yes"
     line="PermitRootLogin no"
@@ -20,8 +21,9 @@
 
 - name: ensure openssh configuration does not allow PasswordAuthentication.
   lineinfile:
+    backrefs=yes
     dest=/etc/ssh/sshd_config
-    regexp="PasswordAuthentication yes"
+    regexp="#PasswordAuthentication yes"
     line="PasswordAuthentication no"
   notify:
     - restart sshd
@@ -31,6 +33,7 @@
 
 - name: ensure openssh configuration does not allow X11Forwarding.
   lineinfile:
+    backrefs=yes
     dest=/etc/ssh/sshd_config
     regexp="^X11Forwarding yes"
     line="X11Forwarding no"
@@ -42,6 +45,7 @@
 
 - name: ensure openssh configuration does not allow UsePAM.
   lineinfile:
+    backrefs=yes
     dest=/etc/ssh/sshd_config
     regexp="^UsePAM yes"
     line="UsePAM no"
