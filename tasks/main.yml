@@ -1,0 +1,55 @@
+---
+- name: ensure ssh is at the latest version
+  apt: pkg=ssh state=present
+  notify:
+    - restart sshd
+  tags:
+    - ssh
+    - packages
+
+- name: ensure openssh configuration does not PermitRootLogin.
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp="^PermitRootLogin yes"
+    line="PermitRootLogin no"
+  notify:
+    - restart sshd
+  tags:
+    - ssh
+    - configuration
+
+- name: ensure openssh configuration does not allow PasswordAuthentication.
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp="PasswordAuthentication yes"
+    line="PasswordAuthentication no"
+  notify:
+    - restart sshd
+  tags:
+    - ssh
+    - configuration
+
+- name: ensure openssh configuration does not allow X11Forwarding.
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp="^X11Forwarding yes"
+    line="X11Forwarding no"
+  notify:
+    - restart sshd
+  tags:
+    - ssh
+    - configuration
+
+- name: ensure openssh configuration does not allow UsePAM.
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp="^UsePAM yes"
+    line="UsePAM no"
+  notify:
+    - restart sshd
+  tags:
+    - ssh
+    - configuration
+
+# REFERENCES:
+# Ubuntu step 3 hardening from http://www.thefanclub.co.za/how-to/how-secure-ubuntu-1204-lts-server-part-1-basics
